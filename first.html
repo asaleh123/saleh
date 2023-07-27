@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .products-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .product-item {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px;
+            width: 200px;
+            text-align: center;
+        }
+
+        .product-item img {
+            width: 150px;
+            height: 150px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .product-item h3 {
+            margin: 0;
+            color: #333;
+            font-size: 18px;
+        }
+
+        .product-item p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .product-item button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 8px 0;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .cart {
+            text-align: center;
+        }
+
+        .cart h2 {
+            color: #333;
+        }
+
+        #cart-items {
+            list-style: none;
+            padding: 0;
+        }
+
+        #cart-items li {
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        #total-price {
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .cart button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #receipt {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ammar Almawri</h1>
+
+    <div class="products-container">
+        <div class="product-item">
+            <img src="cake.jpg" alt="Cake">
+            <h3>Cake</h3>
+            <p>Price: $5.99</p>
+            <button onclick="addToCart('Cake', 5.99)">Add to Cart</button>
+        </div>
+        <div class="product-item">
+            <img src="banana.jpg" alt="Banana">
+            <h3>Product 2</h3>
+            <p>Price: $12.99</p>
+            <button onclick="addToCart('Banana', 12.99)">Add to Cart</button>
+        </div>
+        <!-- Add more product items here -->
+    </div>
+
+    <div class="cart">
+        <h2>Shopping Cart</h2>
+        <ul id="cart-items">
+            <!-- The shopping cart items will be dynamically added here -->
+        </ul>
+        <p id="total-price">Total: $0</p>
+        <button onclick="checkout()">Checkout</button>
+    </div>
+
+    <div id="checkout-total">
+        <!-- The total price will be dynamically updated here -->
+    </div>
+
+    <div id="receipt">
+        <!-- The receipt details will be displayed here during checkout -->
+    </div>
+
+    <script>
+        // JavaScript code goes here
+        let cartItems = [];
+        let totalPrice = 0;
+
+        function addToCart(productName, price) {
+            const existingItem = cartItems.find(item => item.name === productName);
+            if (existingItem) {
+                existingItem.quantity++;
+                existingItem.totalPrice += price;
+            } else {
+                cartItems.push({ name: productName, price: price, quantity: 1, totalPrice: price });
+            }
+
+            totalPrice += price;
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItemsList = document.getElementById('cart-items');
+            cartItemsList.innerHTML = '';
+            cartItems.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.name} x${item.quantity} - $${item.totalPrice.toFixed(2)}`;
+                cartItemsList.appendChild(li);
+            });
+
+            const totalPriceElement = document.getElementById('total-price');
+            totalPriceElement.textContent = `Total: $${totalPrice.toFixed(2)}`;
+
+            // Update the checkout total on the webpage
+            const checkoutTotal = document.getElementById('checkout-total');
+            checkoutTotal.innerHTML = `<p><strong>Total: $${totalPrice.toFixed(2)}</strong></p>`;
+        }
+
+        function printReceiptContent() {
+            // Create the receipt HTML
+            const itemList = cartItems.map(item => `<li>${item.name} x${item.quantity} - $${item.totalPrice.toFixed(2)}</li>`);
+            const receiptHTML = `
+                <h2>Receipt</h2>
+                <ul>${itemList.join('')}</ul>
+                <p><strong>Total: $${totalPrice.toFixed(2)}</strong></p>
+                <p>Thank you for your order!</p>
+            `;
+
+            return receiptHTML;
+        }
+
+        function checkout() {
+            if (cartItems.length === 0) {
+                alert('Your cart is empty. Please add some items before proceeding to checkout.');
+                return;
+            }
+
+            // Extract the receipt content
+            const receiptContent = printReceiptContent();
+
+            // Temporarily remove unnecessary elements from the page
+            const productsContainer = document.querySelector('.products-container');
+            const cart = document.querySelector('.cart');
+            const checkoutTotal = document.getElementById('checkout-total');
+            productsContainer.style.display = 'none';
+            cart.style.display = 'none';
+            checkoutTotal.style.display = 'none';
+
+            // Display the receipt on the webpage
+            const receiptElement = document.getElementById('receipt');
+            receiptElement.style.display = 'block';
+            receiptElement.innerHTML = receiptContent;
+
+            // Print the receipt
+            window.print();
+
+            // Restore the removed elements after printing
+            receiptElement.style.display = 'none';
+            receiptElement.innerHTML = '';
+            productsContainer.style.display = 'flex';
+            cart.style.display = 'block';
+            checkoutTotal.style.display = 'block';
+
+            // Clear the cart after checkout
+            cartItems = [];
+            totalPrice = 0;
+            updateCart();
+        }
+    </script>
+</body>
+</html>
