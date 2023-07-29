@@ -5,103 +5,199 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
+            background-color: #f0f0f0;
             margin: 0;
             padding: 0;
         }
 
         h1 {
             text-align: center;
-            color: #333;
+            color: #337ab7;
+            padding: 20px 0;
+            font-size: 48px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
 
+        /* Products Section */
         .products-container {
-            display: flex;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            justify-items: center;
+            padding: 20px;
         }
 
         .product-item {
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 10px;
-            margin: 10px;
-            width: 200px;
+            border: 2px solid #ccc;
+            border-radius: 16px;
+            padding: 20px;
+            width: 100%;
             text-align: center;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
         }
 
         .product-item img {
             width: 150px;
             height: 150px;
-            border-radius: 8px;
-            margin-bottom: 10px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .product-item h3 {
-            margin: 0;
+            margin: 10px 0;
             color: #333;
-            font-size: 18px;
+            font-size: 24px;
         }
 
         .product-item p {
             margin: 5px 0;
-            color: #666;
+            color: #777;
+            font-size: 18px;
         }
 
         .product-item button {
-            background-color: #4CAF50;
+            background-color: #00b3b3;
             color: white;
             border: none;
-            padding: 8px 16px;
+            padding: 12px 24px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 14px;
-            margin: 8px 0;
-            border-radius: 4px;
+            font-size: 20px;
+            margin-top: 20px;
+            border-radius: 12px;
             cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
+        .product-item button:hover {
+            background-color: #008080;
+        }
+
+        /* Cart Section */
         .cart {
             text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .cart h2 {
-            color: #333;
+            color: #337ab7;
+            margin-bottom: 20px;
+            font-size: 32px;
         }
 
         #cart-items {
             list-style: none;
             padding: 0;
+            font-size: 20px;
+            text-align: left;
+            margin: 10px 0;
         }
 
         #cart-items li {
-            margin-bottom: 5px;
             color: #666;
+            margin-bottom: 5px;
         }
 
         #total-price {
             font-weight: bold;
-            margin: 10px 0;
+            color: #337ab7;
+            font-size: 24px;
         }
 
         .cart button {
-            background-color: #f44336;
+            background-color: #ff5c33;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 24px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 16px;
-            margin-top: 10px;
-            border-radius: 4px;
+            font-size: 20px;
+            margin-top: 20px;
+            border-radius: 12px;
             cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
+        .cart button:hover {
+            background-color: #e63900;
+        }
+
+        /* Receipt Section */
         #receipt {
             display: none;
+            text-align: left;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-    </style>
+
+        #receipt h2 {
+            color: #337ab7;
+            margin-bottom: 20px;
+            font-size: 32px;
+        }
+
+        #receipt p {
+            color: #777;
+            margin: 5px 0;
+            font-size: 20px;
+        }
+
+        /* Styling for Checkout and Receipt */
+        #checkout-total, #receipt-total {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .receipt-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .receipt-item span {
+            font-size: 18px;
+        }
+
+        .receipt-item strong {
+            margin-left: 10px;
+        }
+
+        .print-button {
+            background-color: #337ab7;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px;
+            margin-top: 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .print-button:hover {
+            background-color: #135878;
+        }
+    </style>   
 </head>
 <body>
     <h1>Ammar Almawri</h1>
@@ -110,8 +206,8 @@
         <div class="product-item">
             <img src="cake.jpg" alt="Cake">
             <h3>Cake</h3>
-            <p>Price: $5.99</p>
-            <button onclick="addToCart('Cake', 5.99)">Add to Cart</button>
+            <p>Price: $5.88</p>
+            <button onclick="addToCart('Cake', 5.88)">Add to Cart</button>
         </div>
         <div class="product-item">
             <img src="banana.jpg" alt="Banana">
